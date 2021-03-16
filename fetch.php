@@ -1,5 +1,4 @@
 <?php
-//fetch.php
 $ders_kodu = $_GET['ders_kodu'];
 $section_kodu = $_GET['section_kodu'];
 $connect = mysqli_connect("localhost", "root", "", "devamsizlik");

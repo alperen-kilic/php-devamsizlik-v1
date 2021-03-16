@@ -1,5 +1,4 @@
 <?php
-//update.php
 $connect = mysqli_connect("localhost", "root", "", "devamsizlik");
 $query = "
  UPDATE islenen_dersler SET ".$_POST["name"]." = '".$_POST["value"]."' 

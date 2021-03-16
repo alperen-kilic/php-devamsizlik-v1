@@ -1,5 +1,4 @@
 <?php include("connection.php");
-
 if(isset($_POST['h_id'])) {
     $sql = "select * from `ders` where `hoca_id`=".mysqli_real_escape_string($con, $_POST['h_id']);
     $res = mysqli_query($con, $sql);
