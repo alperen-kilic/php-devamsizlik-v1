@@ -8,7 +8,7 @@ include ("connection.php");
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="ajax.js"></script>
+    <script type="text/javascript" src="js/ajax.js"></script>
 
 </head>
 <body>
