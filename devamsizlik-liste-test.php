@@ -1,7 +1,6 @@
 <?php
 include ("connection.php");
 ?>
-
 <?php
 $data[] = null;
 $last_seen_pk = -1;
@@ -19,41 +18,32 @@ if(!empty($_GET['ders']))
     $ders_sec_value_exploded = explode('|', $ders_sec_value);  // 0-> Ders Kodu 1-> Section Kodu
     $ders_kodu = $ders_sec_value_exploded[0];
     $section_kodu = $ders_sec_value_exploded[1];
-
     $sql = 'SELECT devamsizliklar.id, devamsizliklar.ogrenci_no, ogrenciler.ad, ogrenciler.soyad, devamsizliklar.ders_kodu, devamsizliklar.section_kod, devamsizliklar.hafta,
             devamsizliklar.saat, ders.hoca_id
             FROM `devamsizliklar` INNER JOIN `ders` ON devamsizliklar.ders_kodu=ders.ders_kodu
             INNER JOIN `ogrenciler` ON devamsizliklar.ogrenci_no = ogrenciler.ogrenci_no
             WHERE devamsizliklar.ders_kodu = "'. $ders_kodu .'" AND ders.hoca_id = '. $_GET['hoca']. ' AND devamsizliklar.section_kod = '. $section_kodu .'
             ORDER BY ogrenci_no, hafta';
-
     $sql2 = 'SELECT islenen_dersler.id, islenen_dersler.ders_kodu, islenen_dersler.section_kod, islenen_dersler.hafta, islenen_dersler.saat, dersler.donem_saati FROM `islenen_dersler`
              INNER JOIN `dersler` ON islenen_dersler.ders_kodu = dersler.ders_kodu WHERE islenen_dersler.ders_kodu = "'. $ders_kodu . '" AND islenen_dersler.section_kod = ' . $section_kodu .'
              ORDER BY hafta';
-
     $res = mysqli_query($con, $sql2);
     if(mysqli_num_rows($res) > 0) {
         while($row = mysqli_fetch_assoc($res)) {
             $ders_data[] = $row;
         }
     }
-
     $res->close();
-
     if(!empty($ders_data[1]))
     {
         $toplam_ders_saati = $ders_data[1]['donem_saati']; // Dönem saati -> (Teorik saat + Pratik saat) * 14
     }
-
     $res = mysqli_query($con, $sql);
-
     if(mysqli_num_rows($res) > 0) {
         while ($row = mysqli_fetch_assoc($res)) {
             $data[] = $row;
         }
-
     }
-
 }
 ?>
 <!DOCTYPE HTML>
@@ -67,9 +57,7 @@ if(!empty($_GET['ders']))
     <script src="js/bootstrap-editable.min.js"></script>
     <link href="css/style.css" rel="stylesheet">
 </head>
-
 <body>
-
 <div class="container" id="tum_sayfa">
     <div id="dersler">
         <?php
@@ -125,15 +113,12 @@ if(!empty($_GET['ders']))
                 if($toplam_ders_saati < $islenen_ders_saati)
                 {
                     echo '<div class="alert alert-warning" role="alert">İşlenen ders saati, standart dönem saatini aşıyor. Hesaplamalar işlenen saat üzerinden yapılacak.</div>';
-
-
                 }
             }
             ?>
             </tbody>
         </table>
     </div>
-
     <div id="devamsizliklar">
         <br />
         <table class="table table-bordered table-striped">
@@ -169,22 +154,12 @@ if(!empty($_GET['ders']))
                     $next = isset($data[$i+1]) ? $data[$i+1] : null; // next
                     $prev = isset($data[$i-1]) ? $data[$i-1] : null; // previous
                     $curr = isset($data[$i])   ? $data[$i]   : null; //current
-
-//                if($sayac == 20 && $curr['ogrenci_no'] == $prev['ogrenci_no'])
-//                {
-//                    continue;
-//                }
-
-
-
                     // Öğrenci numarası aynı devam ediyorsa aynı satırda devam et
                     if($prev['ogrenci_no'] == $curr['ogrenci_no'])
                     {
                         echo "<td data-no='". ($sayac - 2) ."' data-name='saat' data-type='text' class='saat' data-pk='". $curr['id'] ."'>" . $curr['saat'] . "</td>";
                         $devamsizlik_saati += $curr['saat'];
                         $sayac ++;
-
-
                         //Sonraki data boşsa (Son satır) kalan sütunları boş olarak yaz
                         if(is_null($next))
                         {
@@ -214,7 +189,6 @@ if(!empty($_GET['ders']))
                         echo "</tr>";
                         $satir_takip++;
                     }
-
                     if(is_null($prev) || $curr['ogrenci_no'] != $prev['ogrenci_no'])
                     {
                         echo "<tr id='ogrenci-devamsizlik-satir-". $satir_takip ."'>";
@@ -224,7 +198,6 @@ if(!empty($_GET['ders']))
                         echo "<td data-no='". ($sayac - 3) ."' data-name='saat' data-type='text' class='saat' data-pk='". $curr['id'] ."'>" . $curr['saat'] . "</td>";
                         $devamsizlik_saati += $curr['saat'];
                     }
-
                 }
             }
             else {
@@ -234,14 +207,10 @@ if(!empty($_GET['ders']))
             </tbody>
         </table>
     </div>
-
 </div>
 </body>
 </html>
-
 <script type="text/javascript" language="javascript" >
-
-
     $('#ders_data').editable({
         ajaxOptions: {
             cache: false,
@@ -280,7 +249,6 @@ if(!empty($_GET['ders']))
             $("body").html(ajax_load).load(loadUrl);
         }
     });
-
     $('#devamsizlik_data').editable({
         params: function (params) {
             params.param1 = $(this).editable().data('no');
@@ -321,8 +289,6 @@ if(!empty($_GET['ders']))
             var loadUrl = "http://localhost/testing/devamsizlik-liste-test.php?ders=<?php echo $_GET['ders'] ?>&hoca=<?php echo $_GET['hoca'] ?>";
             loadUrl += '&_=' + (new Date()).getTime();
             $("body").html(ajax_load).load(loadUrl);
-
         }
     });
-
 </script>

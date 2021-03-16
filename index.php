@@ -8,8 +8,7 @@ include ("connection.php");
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="ajax.js"></script>
-
+    <script type="text/javascript" src="js/ajax.js"></script>
 </head>
 <body>
 <br>
@@ -28,12 +27,10 @@ include ("connection.php");
         }
         ?>
     </select>
-
     <label>Dersler :</label>
     <select class="form-control picker" name="ders" id="ders"><option>------- Ders Seçin --------</option></select>
     <br/>
     <input class="btn btn-primary btn-lg" type="submit" id="button" disabled value="Devamsızlıkları Göster" />
-
 </body>
 </html>
 <script>
@@ -43,6 +40,4 @@ include ("connection.php");
             $("#button").attr("disabled", $sels.length > 0);
         }).change();
     });
-
-
 </script>
